@@ -3,8 +3,8 @@ import morgan from 'morgan';
 import jwt from 'jsonwebtoken';
 import fileUpload from 'express-fileupload';
 import moment from 'moment';
-import dotenv from 'dotenv';                                    //////////
-dotenv.config();                                                //////////
+import dotenv from 'dotenv';
+dotenv.config();
 import db from './database/config.js';
 import { create } from 'express-handlebars';
 import * as path from 'path';
@@ -16,7 +16,7 @@ import validateAdmin from './utils/adminVerify.js'
 
 const app = express();
 const log = console.log;
-const jwtSecret = process.env.JWT_SECRET;                       //////////
+const jwtSecret = process.env.JWT_SECRET;
 
 // Inicio configuracion handlebars
 const hbs = create({
@@ -101,7 +101,7 @@ app.get('/registro', (req, res) => {
     })
 });
 
-app.get('/perfil', verificarToken, async (req, res) => { //verificarToken  validateToken
+app.get('/perfil', validateToken, async (req, res) => { //verificarToken  validateToken
     try {
         //log(req.usuario.id)
         let { rows } = await db.query('SELECT id, nombre, email, admin, imagen FROM usuarios WHERE id = $1', [req.usuario.id])
@@ -114,11 +114,9 @@ app.get('/perfil', verificarToken, async (req, res) => { //verificarToken  valid
         } else {
             throw new Error("No existe el usuario.")
         }
-
         // res.render('perfil')
     } catch (error) {
         log(error)
-
         res.render('perfil', {
             perfilView: true,
             error: 'No fue posible mostrar sus datos, intente más tarde.'
@@ -131,7 +129,6 @@ app.get('/administracion', validateToken, validateAdmin, async (req, res) => {
         adminView: true
     })
 });
-
 
 // Endpoints
 // Registro de usuarios
@@ -159,7 +156,6 @@ app.post('/api/v1/registro', async (req, res) => {
                 values: [nombre, email, password, `avatars/${nombreArchivo}`]
             };
             await db.query(consulta)
-
             res.status(201).json({ message: 'ok.' })
         } else {
             let consulta = {
@@ -182,15 +178,12 @@ app.post('/api/v1/login', async (req, res) => {
         if (!email || !password) {
             return res.status(400).json({ message: 'Debe proporcionar todos los datos para la autenticación.' })
         };
-
         let consulta = {
             text: 'SELECT id, nombre, email, admin, imagen FROM usuarios WHERE email = $1 AND password = $2',
             values: [email, password]
         };
         let respuesta = await db.query(consulta)
-
         let usuario = respuesta.rows[0]
-
         if (!usuario) {
             return res.status(400).json({
                 message: "Credenciales inválidas."
@@ -208,16 +201,17 @@ app.post('/api/v1/login', async (req, res) => {
         log(error.message)
         res.status(500).json({ message: 'Error en el proceso de login del usuario.' })
     }
-
-
 });
 
-
-
+// Respuestas Not Found
 app.all('/api/*', (req, res) => {
-    res.status(404).json({ message: 'El recurso no existe, verifique la documentación.' })
+    res.status(404).json({
+        message: 'Recurso no encontrado.'
+    })
 });
 
-app.get('*', (req, res) => {
-    res.status(404).render('404')
+app.get('/*', (req, res) => {
+    res.render('404', {
+        message: `La ruta '${req.url}' no existe o no se encuentra disponible.`
+    })
 });
