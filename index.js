@@ -139,26 +139,36 @@ app.post('/api/v1/registro', async (req, res) => {
     //Como recibimos los datos, json o formData
     try {
         let { nombre, email, password } = req.body;
-        let { imagen } = req.files;
-        // Ruta donde se guardará la imagen
-        let imagenType = imagen.mimetype.split('/')[1]
-        let nombreArchivo = `IMG_${nombre}_${moment().format('YYMMDD-HHmmss')}.${imagenType}`
-        let uploadPath = path.join(__dirname, '/public/avatars/', nombreArchivo);
-        // Guardar imagen
-        imagen.mv(uploadPath, (error) => {
-            if (error) {
-                log(error)
-                return res.status(500).json({ message: 'No se pudo guardar la imagen en el servidor.' })
-            }
-        });
-        //Guardar info en la base de datos
-        let consulta = {
-            text: 'INSERT INTO usuarios VALUES (DEFAULT, $1, $2, $3, DEFAULT, $4) ',
-            values: [nombre, email, password, `avatars/${nombreArchivo}`]
-        };
-        await db.query(consulta)
+        let imagen;
+        if (imagen) {
+            imagen = req.files.imagen;
+            // Ruta donde se guardará la imagen
+            let imagenType = imagen.mimetype.split('/')[1]
+            let nombreArchivo = `IMG_${nombre}_${moment().format('YYMMDD-HHmmss')}.${imagenType}`
+            let uploadPath = path.join(__dirname, '/public/avatars/', nombreArchivo);
+            // Guardar imagen
+            imagen.mv(uploadPath, (error) => {
+                if (error) {
+                    log(error)
+                    return res.status(500).json({ message: 'No se pudo guardar la imagen en el servidor.' })
+                }
+            });
+            //Guardar info en la base de datos
+            let consulta = {
+                text: 'INSERT INTO usuarios VALUES (DEFAULT, $1, $2, $3, DEFAULT, $4) ',
+                values: [nombre, email, password, `avatars/${nombreArchivo}`]
+            };
+            await db.query(consulta)
 
-        res.status(201).json({ message: 'ok.' })
+            res.status(201).json({ message: 'ok.' })
+        } else {
+            let consulta = {
+                text: 'INSERT INTO usuarios (nombre, email, password) VALUES ($1, $2, $3)',
+                values: [nombre, email, password]
+            };
+            await db.query(consulta)
+            res.status(201).json({ message: 'ok.' })
+        }
     } catch (error) {
         log(error)
         res.status(500).json({ message: 'Error en proceso de registro usuario' })

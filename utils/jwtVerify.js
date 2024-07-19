@@ -1,4 +1,6 @@
 import jwt from 'jsonwebtoken';
+import responseFormat from './responseFormat.js';
+
 import dotenv from 'dotenv';
 dotenv.config();
 
@@ -8,7 +10,8 @@ const validateToken = (req, res, next) => {
     try {
         let { token } = req.query;
         if(!token){
-            return res.status(401).json({message: 'Usted necesita iniciar sesión para continuar.'})
+            let message= 'Necesita iniciar sesión para continuar.';
+            responseFormat(res, req.url, message, 401)
         }
         let decoded = jwt.verify(token, jwtSecret);
         req.usuario = decoded;
@@ -16,9 +19,8 @@ const validateToken = (req, res, next) => {
 
         next();
     } catch (error) {
-        return res.status(500).json({
-            message: 'Error en proceso de verificación de credencial.'
-        })
+        let message= 'Error en proceso de verificación de credenciales.';
+        responseFormat(res, req.url, message, 500)
     }
 };
 export default validateToken;

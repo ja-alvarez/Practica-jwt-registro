@@ -15,14 +15,11 @@
                 <li id="homeLink" class="nav-item mx-3">
                     <a class="nav-link custom-link {{#if homeView}}active{{/if}}" aria-current="page" href="/">Home</a>
                 </li>
-                <li id="loginLink" class="nav-item mx-3">
-                    <a class="nav-link custom-link {{#if loginView}}active{{/if}}" href="/login">Login</a>
-                </li>
-                <li id="logoutLink" class="nav-item mx-3" style="display: none;">
-                    <a id="logout" class="nav-link custom-link" href="">Logout</a>
-                </li>
                 <li id="registroLink" class="nav-item mx-3">
                     <a class="nav-link custom-link {{#if registroView}}active{{/if}}" href="/registro">Registro</a>
+                </li>
+                <li id="loginLink" class="nav-item mx-3">
+                    <a class="nav-link custom-link {{#if loginView}}active{{/if}}" href="/login">Login</a>
                 </li>
                 <li id="perfilLink" class="nav-item mx-3" style="display: none;">
                     <a id="perfil" class="nav-link custom-link {{#if perfilView}}active{{/if}}"
@@ -30,7 +27,10 @@
                 </li>
                 <li id="administracionLinks" class="nav-item mx-3" style="display: none;">
                     <a id="adminUsuarios" class="nav-link custom-link {{#if adminView}}active{{/if}}"
-                        href="/administracion">Administracion</a>
+                        href="/administracion">Administración</a>
+                </li>
+                <li id="logoutLink" class="nav-item mx-3" style="display: none;">
+                    <a id="logout" class="nav-link custom-link" href="">Logout</a>
                 </li>
             </ul>
             </li>
@@ -60,9 +60,9 @@
         logoutLink.style.display = "block";
         perfilLink.style.display = "block";
     }// else {}
-    
+
     if (usuario) {
-        document.getElementById("brand").innerText = "Bienvenido " + usuario.email;
+        document.getElementById("brand").innerText = "Bienvenido " + usuario.nombre;
         if (usuario.admin) {
             administracionLinks.style.display = "block";
         }

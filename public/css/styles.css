@@ -20,6 +20,9 @@ body {
     color: white; /* Color del texto */
 }
 
+#brand {
+    color: blue;
+}
 .custom-navbar .custom-link:hover,
 .custom-navbar .dropdown-toggle:hover {
     color: gray; /* Color del texto al pasar el ratón */
