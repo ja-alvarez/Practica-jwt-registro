@@ -3,7 +3,6 @@ import responseFormat from './responseFormat.js';
 import dotenv from 'dotenv';
 dotenv.config();
 
-
 const validateAdmin = async (req, res, next) => {
     try {
         console.log('id USUARIO', req.usuario.id)

@@ -6,30 +6,34 @@
 body {
     background: white;
     color: black;
-} 
-
+}
 
 /* Estilos navbar */
 .custom-navbar {
-    background-color: black; /* Fondo del navbar */
+    background-color: black;
+    /* Fondo del navbar */
 }
 
 .custom-navbar .custom-brand,
 .custom-navbar .nav-link,
 .custom-navbar .dropdown-toggle {
-    color: white; /* Color del texto */
+    color: white;
+    /* Color del texto */
 }
 
 #brand {
     color: blue;
 }
+
 .custom-navbar .custom-link:hover,
 .custom-navbar .dropdown-toggle:hover {
-    color: gray; /* Color del texto al pasar el ratón */
+    color: gray;
+    /* Color del texto al pasar el ratón */
 }
 
 .custom-navbar .custom-toggler {
-    border-color: white; /* Color del borde del botón del toggler */
+    border-color: white;
+    /* Color del borde del botón del toggler */
 }
 
 .custom-navbar .custom-toggler-icon {
@@ -37,14 +41,18 @@ body {
 }
 
 .custom-navbar .custom-dropdown {
-    background-color: black; /* Fondo del dropdown */
+    background-color: black;
+    /* Fondo del dropdown */
 }
 
 .custom-navbar .custom-dropdown-item {
-    color: white; /* Color del texto del dropdown */
+    color: white;
+    /* Color del texto del dropdown */
 }
 
 .custom-navbar .custom-dropdown-item:hover {
-    background-color: gray; /* Fondo del dropdown al pasar el ratón */
-    color: black; /* Color del texto del dropdown al pasar el ratón */
+    background-color: gray;
+    /* Fondo del dropdown al pasar el ratón */
+    color: black;
+    /* Color del texto del dropdown al pasar el ratón */
 }

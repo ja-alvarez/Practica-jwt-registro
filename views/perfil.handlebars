@@ -3,7 +3,6 @@
 </header>
 
 <main class="container">
-
     {{#if error}}
     <section>
         <h2 class="text-center">{{error}}</h2>
@@ -18,14 +17,11 @@
         <p>Nombre: <strong>{{usuario.nombre}}</strong></p>
         <p>Email: {{usuario.email}}</p>
         <p>Admin: {{usuario.admin}}</p>
-
-
         {{#if usuario.imagen}}
         <img src="{{usuario.imagen}}" alt="{{usuario.imagen}}">
         {{else}}
         <img src="../avatars/sin_foto.jpeg" alt="Sin foto" width="300px">
         {{/if}}
-
     </section>
     {{/if}}
 </main>

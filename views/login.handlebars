@@ -29,7 +29,7 @@
 <script>
     const formLogin = document.getElementById("formLogin");
     formLogin.addEventListener("submit", async (event) => {
-        try{
+        try {
             event.preventDefault();
             let formData = new FormData(formLogin);
             let response = await fetch("/api/v1/login", {
@@ -41,10 +41,9 @@
             if (response.status == 200) {
                 localStorage.setItem("token", data.token)
                 localStorage.setItem("usuario", JSON.stringify(data.usuario));
-            //    location.href =  "/perfil?token=" + data.token
-            location.href = "/"
-
-            }  
+                //    location.href =  "/perfil?token=" + data.token
+                location.href = "/"
+            }
             //else {
             //    localStorage.removeItem("token")
             //}
