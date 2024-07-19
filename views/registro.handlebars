@@ -1,0 +1,67 @@
+<header class="py-3">
+    <h1 class="text-center">Formulario de registro</h1>
+</header>
+
+<main>
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-md-6">
+                <img src="https://picsum.photos/500/400" class="img-fluid" alt="Imagen de ejemplo">
+            </div>
+            <div class="col-md-5">
+                <form id="formRegistro">
+                    <div class="mb-3">
+                        <label for="nombre" class="form-label">Nombre <span class="text-danger">*</span></label>
+                        <input type="text" class="form-control" id="nombre" name="nombre" placeholder="Nombre" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="email" class="form-label">Email <span class="text-danger">*</span></label>
+                        <input type="email" class="form-control" id="email" name="email"
+                            placeholder="nombre@ejemplo.com" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="password" class="form-label">Contraseña <span class="text-danger">*</span></label>
+                        <input type="password" class="form-control" id="password" name="password" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="confirmPassword" class="form-label">Repetir Contraseña <span
+                                class="text-danger">*</span></label>
+                        <input type="password" class="form-control" id="confirmPassword" name="confirmPassword"
+                            required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="imagen" class="form-label">Imagen <span class="text-danger">*</span></label>
+                        <input type="file" class="form-control" id="imagen" name="imagen" required>
+                    </div>
+                    <button type="submit" class="btn btn-dark">Enviar</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</main>
+
+<script>
+    const formRegistro = document.getElementById("formRegistro");
+    formRegistro.addEventListener("submit", async (event) => {
+        try {
+            event.preventDefault();
+            let formData = new FormData(formRegistro);
+            if (formData.get("password") != formData.get("confirmPassword")) {
+                return alert("Los passwords no coinciden.")
+            }
+
+            let response = await fetch("/api/v1/registro", {
+                method: "POST",
+                body: formData,
+            });
+            let data = await response.json();
+            alert(data.message)
+            if (response.status == 201) {
+                location.href="/login"
+            } 
+            //else {}
+        } catch (error) {
+            alert("Error al registrar usuario.")
+        }
+    })
+</script>

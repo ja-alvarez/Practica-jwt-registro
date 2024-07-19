@@ -1,0 +1,26 @@
+<header class="py-3">
+    <h1 class="text-center">Vista Perfil</h1>
+</header>
+
+<main class="container">
+
+    {{#if error}}
+    <section>
+        <h2 class="text-center">{{error}}</h2>
+        <button class="btn btn-dark"><a href="/" style="color:white; text-decoration: none; ">Volver a la vista
+                principal</a></button>
+    </section>
+
+    {{else}}
+    <section class="text-center">
+        <h3>Información personal</h3>
+        <p>Id: {{usuario.id}}</p>
+        <p>Nombre: {{usuario.nombre}}</p>
+        <p>Email: {{usuario.email}}</p>
+        <p>Admin: {{usuario.admin}}</p>
+        <p>Imagen: <img src="../public/avatars/{{usuario.imagen}}" alt="avatar"> </p>
+{{usuario.imagen}}
+
+    </section>
+    {{/if}}
+</main>

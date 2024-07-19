@@ -1,0 +1,56 @@
+<header class="py-3">
+    <h1 class="text-center">Login</h1>
+</header>
+
+<main>
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-md-5">
+                <form id="formLogin">
+                    <div class="mb-3">
+                        <label for="email" class="form-label">Email <span class="text-danger">*</span></label>
+                        <input type="email" class="form-control" id="email" name="email"
+                            placeholder="nombre@ejemplo.com" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="password" class="form-label">Contraseña <span class="text-danger">*</span></label>
+                        <input type="password" class="form-control" id="password" name="password" required>
+                    </div>
+                    <button type="submit" class="btn btn-dark">Iniciar sesión</button>
+                </form>
+            </div>
+            <div class="col-md-6 ps-5">
+                <img src="https://picsum.photos/500/400" class="img-fluid" alt="Imagen de ejemplo">
+            </div>
+        </div>
+    </div>
+</main>
+
+<script>
+    const formLogin = document.getElementById("formLogin");
+    formLogin.addEventListener("submit", async (event) => {
+        try{
+            event.preventDefault();
+            let formData = new FormData(formLogin);
+            let response = await fetch("/api/v1/login", {
+                method: "POST",
+                body: formData,
+            });
+            let data = await response.json();
+            alert(data.message)
+            if (response.status == 200) {
+                localStorage.setItem("token", data.token)
+                localStorage.setItem("usuario", JSON.stringify(data.usuario));
+            //    location.href =  "/perfil?token=" + data.token
+            location.href = "/"
+
+            }  
+            //else {
+            //    localStorage.removeItem("token")
+            //}
+        } catch {
+            alert("Error al iniciar sesion.");
+            localStorage.removeItem("token");
+        }
+    })
+</script>

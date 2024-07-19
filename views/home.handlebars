@@ -1,0 +1,27 @@
+<header class="py-3">
+    <h1 class="text-center">Home</h1>
+</header>
+<main>
+
+    <h3 id="enConstruccion" class="text-center">Sitio en construcción</h3>
+</main>
+
+<script>
+    const enConstruccion = document.getElementById("enConstruccion");
+    const textoBase = "Sitio en construccion";
+
+    const en_construccion = () => {
+        let contador = 0;
+        //let i = 0;
+        const intervalo = setInterval(() => {
+            if (contador < 3) {
+                enConstruccion.textContent = textoBase + '.'.repeat(contador + 1);
+                contador++;
+            } else {
+                enConstruccion.textContent = textoBase;
+                contador = 0;
+            }
+        }, 1000);
+    }
+    en_construccion();
+</script>
