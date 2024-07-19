@@ -15,11 +15,16 @@
     <section class="text-center">
         <h3>Información personal</h3>
         <p>Id: {{usuario.id}}</p>
-        <p>Nombre: {{usuario.nombre}}</p>
+        <p>Nombre: <strong>{{usuario.nombre}}</strong></p>
         <p>Email: {{usuario.email}}</p>
         <p>Admin: {{usuario.admin}}</p>
-        <p>Imagen: <img src="../public/avatars/{{usuario.imagen}}" alt="avatar"> </p>
-{{usuario.imagen}}
+
+
+        {{#if usuario.imagen}}
+        <img src="{{usuario.imagen}}" alt="{{usuario.imagen}}">
+        {{else}}
+        <img src="../public/avatars/sin_foto.jpg" alt="Sin foto">
+        {{/if}}
 
     </section>
     {{/if}}

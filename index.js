@@ -3,8 +3,8 @@ import morgan from 'morgan';
 import jwt from 'jsonwebtoken';
 import fileUpload from 'express-fileupload';
 import moment from 'moment';
-import dotenv from 'dotenv';                                    /
-dotenv.config();                                                /
+import dotenv from 'dotenv';                                    //////////
+dotenv.config();                                                //////////
 import db from './database/config.js';
 import { create } from 'express-handlebars';
 import * as path from 'path';
@@ -12,10 +12,11 @@ import { fileURLToPath } from 'url';
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 import validateToken from './utils/jwtVerify.js'
+import validateAdmin from './utils/adminVerify.js'
 
 const app = express();
 const log = console.log;
-const jwtSecret = process.env.JWT_SECRET;                       /
+const jwtSecret = process.env.JWT_SECRET;                       //////////
 
 // Inicio configuracion handlebars
 const hbs = create({
@@ -100,7 +101,7 @@ app.get('/registro', (req, res) => {
     })
 });
 
-app.get('/perfil', validateToken, async (req, res) => { //verificarToken  validateToken
+app.get('/perfil', verificarToken, async (req, res) => { //verificarToken  validateToken
     try {
         //log(req.usuario.id)
         let { rows } = await db.query('SELECT id, nombre, email, admin, imagen FROM usuarios WHERE id = $1', [req.usuario.id])
@@ -125,7 +126,7 @@ app.get('/perfil', validateToken, async (req, res) => { //verificarToken  valida
     }
 });
 
-app.get('/administracion', validateToken, async (req, res) => {
+app.get('/administracion', validateToken, validateAdmin, async (req, res) => {
     res.render('adminUsuarios', {
         adminView: true
     })
@@ -197,7 +198,11 @@ app.post('/api/v1/login', async (req, res) => {
         log(error.message)
         res.status(500).json({ message: 'Error en el proceso de login del usuario.' })
     }
+
+
 });
+
+
 
 app.all('/api/*', (req, res) => {
     res.status(404).json({ message: 'El recurso no existe, verifique la documentación.' })
